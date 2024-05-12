@@ -1,3 +1,8 @@
+//Time Complexity for this code :-
+//Insertion at front end and Deletion at front end are O(1).
+//Insertion at back end and Deletion at back end are O(N).
+//Search Function has worst case time complexity O(N) and best case time complexity O(1).
+
 #include<iostream>
 using namespace std;
 class node 
@@ -89,6 +94,28 @@ class LinkList
         }
         cout<<tmp->data<<" ";
     }
+
+    void search(int val)
+    {
+        node *tmp=head;
+        while(tmp->next != NULL)
+        {
+            if(tmp->data==val)
+            {
+                cout<<"Value "<<val<<" exists in the Circular Linked List .";
+                return;
+            }
+        }
+        if(tmp->data==val)
+        {
+            cout<<"Value "<<val<<" exists in the Circular Linked List .";
+        }
+        else
+        {
+            cout<<"Value "<<val<<" does not exist in the Circular Linked List .";
+        }
+
+    }
 };
 
 int main()
@@ -96,7 +123,7 @@ int main()
     LinkList l;
     int num,num1,n;
     label:
-    cout<<"Enter 0 to insert\nEnter 1 to delete\nEnter 2 to display\nEnter 3 to exit\n\n";
+    cout<<"Enter 0 to insert\nEnter 1 to delete\nEnter 2 to display\nEnter 3 to search\nEnter 4 to exit\n\n";
     cin>>num;
     if(num==0)
     {
@@ -136,9 +163,23 @@ int main()
         cout<<endl;
         goto label;
     }
-    else
+    else if (num==3)
+    {
+        cout<<"Enter the number you want to search . ";
+        cin>>num1;
+        l.search(num1);
+        cout<<endl;
+        goto label;
+    }
+    else if(num==4)
     {
         cout<<"------------------------------Thank You . Program Ends Here. ------------------------------------------";
         return 0;
+    }
+    else
+    {
+        cout<<"Enter valid number .";
+        cout<<endl;
+        goto label;
     }
 }
