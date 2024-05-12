@@ -1,123 +1,231 @@
+//If we include tail pointer deletion and insertion functions at front take place in O(1) time complexity .
+//If we use Circular Double Link List the insertions and deletions at front and back take place in O(1) time complexity.
+
+//Time Complexity for this Code :-
+//Insertions and Deletions at front end and back end are O(N).
+//Search Function has worst time complexity O(N) and best time complexity O(1).
+
 #include <iostream>
-#include <stdlib.h>
 using namespace std;
-struct node
+class node
 {
+public:
     int data;
-    struct node *ptr;
-}*s;
-
-class CLinkedList
-{
-    private:
-    struct node *fnode,*tmp,*gnode;
-    int num,n;
-    public:
-    CLinkedList(int n)
+    node *next;
+    node(int val)
     {
-        fnode=nullptr;
-        gnode=nullptr;
-        tmp=nullptr;
-        s=(struct node*)malloc(sizeof(struct node));
-        if(s==NULL)
-        {
-            cout<<"Memory not allocated"<<endl;
-        }
-        else
-        {
-            
-            cout<<"Enter the value of first node :";
-            cin>>num;
-            s->data=num;
-            tmp=s;
-            struct node *tmp1;
-            tmp1=s;
-            for(int i=2;i<=n;i++)
-            {
-                fnode=(struct node *)malloc(sizeof(struct node));
-                if(fnode==NULL)
-                {
-                    cout<<"Memory not allocated.";
-                }
-                else
-                {
-                    cout<<"Enter the value of :"<<i<<" node : ";
-                    cin>>num;
-                    if(i==5)
-                    {
-                        fnode->data=num;
-                        fnode->ptr=NULL;
-                        tmp->ptr=fnode;
-                        tmp=tmp->ptr;
-                    }
-                    fnode->data=num;
-                    fnode->ptr=NULL;
-                    tmp->ptr=fnode;
-                    tmp=tmp->ptr;
-                   
-                    
-                }
-            }
-            tmp->ptr=tmp1;
-            
-        }
-    }
-    void display()
-    {
-        struct node *tmp2;
-        tmp2=s;
-        int i=1;
-        cout<<"The value of node 1 is : "<<tmp2->data<<endl;
-        tmp2=tmp2->ptr;
-        while(tmp2->ptr != s->ptr)
-        {
-            i++;
-            
-            cout<<"The value of node "<<i<<" is : "<<tmp2->data<<endl;
-            // if(i==5)
-            // {
-            //     tmp2=tmp2->ptr;
-            //     cout<<"The value of node 6 is : "<<tmp2->data<<endl;
-            //     i++;
-            // }
-            tmp2=tmp2->ptr;
-           
-        }
-    }
-    void addab()
-    {
-        tmp=s;
-        struct node *tmp1;
-        tmp1=s;
-        tmp1=tmp1->ptr;
-        cout<<"Enter the value of the node : ";
-        cin>>num;
-        cout<<"hi";
-        gnode = (struct node*)malloc(sizeof(struct node));
-        cout<<"hi";
-        if(gnode==NULL)
-        {
-            cout<<"Memory not allocated : ";
-
-        }
-        else
-        {
-            cout<<"hi";
-            gnode->data=num;
-            cout<<"hi";
-            tmp->ptr=gnode;
-            cout<<"hi";
-            gnode->ptr=tmp1;
-            display();          
-        }
+        data = val;
+        next = NULL;
     }
 };
 
+class CLinkList
+{
+private:
+    node *head;
+
+public:
+    CLinkList()
+    {
+        head = NULL;
+    }
+    void insert_front(int val)
+    {
+        node *tmp = new node(val);
+        tmp->next = head;
+        if (head == NULL)
+        {
+            head = tmp;
+            head->next = head;
+        }
+        else
+        {
+            node *tmp1 = head;
+            while (tmp1->next != head)
+            {
+                tmp1 = tmp1->next;
+            }
+            tmp1->next = tmp;
+            tmp->next = head;
+            head = tmp;
+        }
+    }
+
+    void insert_back(int val)
+    {
+        node *tmp = new node(val);
+        if (head == NULL)
+        {
+            head = tmp;
+            head->next = head;
+        }
+        else if (head->next == head)
+        {
+            delete head;
+            head = NULL;
+        }
+        else
+        {
+            node *tmp1 = head;
+            while (tmp1->next != head)
+            {
+                tmp1 = tmp1->next;
+            }
+            tmp1->next = tmp;
+            tmp->next = head;
+        }
+    }
+
+    void display()
+    {
+        if (head == NULL)
+        {
+            cout << "List is Empty .";
+        }
+        else
+        {
+            node *tmp = head;
+            cout << "Cirular Linked List : ";
+            while (tmp->next != head)
+            {
+                cout << tmp->data << " ";
+                tmp = tmp->next;
+            }
+            cout << tmp->data << " ";
+        }
+    }
+
+    void delete_front()
+    {
+        if (head == NULL)
+        {
+            cout << "List is empty ." << endl;
+        }
+        else if (head->next ==head)
+        {
+            delete head;
+            head=NULL;
+        }
+        else
+        {
+            node *tmp = head;
+            while (tmp->next != head)
+            {
+                tmp = tmp->next;
+            }
+            head = head->next;
+            tmp->next = head;
+        }
+    }
+
+    void delete_back()
+    {
+        if (head == NULL)
+        {
+            cout << "List is empty ." << endl;
+        }
+        else if(head->next==head)
+        {
+            delete head;
+            head=NULL;
+        }
+        else
+        {
+            node *tmp = head;
+            while (tmp->next->next != head)
+            {
+                tmp = tmp->next;
+            }
+            delete tmp->next;
+            tmp->next = head;
+        }
+    }
+
+    void search(int val)
+    {
+        node *tmp=head;
+        while(tmp->next!=head)
+        {
+            if(tmp->data==val)
+            {
+                cout<<"Value "<<val<<" exists in the Circular Linked List .";
+                return;
+            }
+        }
+        if(tmp->data==val)
+        {
+            cout<<"Value "<<val<<" exists in the Circular Linked List .";
+        }
+        else
+        {
+            cout<<"Value "<<val<<" does not exist in the Circular Linked List .";
+        }
+
+    }
+};
 
 int main()
 {
-    CLinkedList l1(5);
-    l1.display();
-    l1.addab();
-    return 0;
-} 
+    CLinkList c;
+    int num, num1, n;
+    label:
+    cout << "Enter 0 to insert\nEnter 1 to delete\nEnter 2 to display\nEnter 3 to search\nEnter 4 to exit\n\n";
+    cin >> num;
+    if (num == 0)
+    {
+        cout << "Enter the value to be inserted : ";
+        cin >> n;
+        cout << "Enter 0 to insert at front\nEnter 1 to insert at back\n\n";
+        cin >> num1;
+        if (num1 == 0)
+        {
+            c.insert_front(n);
+        }
+        else
+        {
+            c.insert_back(n);
+        }
+        cout << endl;
+        goto label;
+    }
+    else if (num == 1)
+    {
+        cout << "Enter 0 to delete at front\nEnter 1 to delete at back ";
+        cin >> num1;
+        if (num1 == 0)
+        {
+            c.delete_front();
+        }
+        else
+        {
+            c.delete_back();
+        }
+        cout << endl;
+        goto label;
+    }
+    else if (num == 2)
+    {
+        c.display();
+        cout << endl;
+        goto label;
+    }
+    else if (num==3)
+    {
+        cout<<"Enter the number you want to search : ";
+        cin>>num1;
+        c.search(num1);
+        cout<<endl<<endl;
+        goto label;
+    }
+    else  if(num == 4)
+    {
+        cout << "------------------------------Thank You . Program Ends Here. ------------------------------------------";
+        return 0;
+    }
+    else
+    {
+        cout<<"Enter valid number";
+        cout<<endl<<endl;
+        goto label;
+    }
+}
