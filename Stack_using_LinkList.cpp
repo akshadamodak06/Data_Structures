@@ -1,136 +1,164 @@
 #include<iostream>
 using namespace std;
-
-struct node
+class node
 {
+    public:
     int data;
-    struct node *ptr;
-}*s;
+    node *next;
+    node(int val)
+    {
+        data=val;
+        next=NULL;
+    }
+};
 
-class LLStack
+class Stack
 {
     private:
-    struct node *tmp,*fnode,*gnode;
-    
-    int num;
+    node *top;
     public:
-    LLStack(int n)
+    Stack()
     {
-        s=(struct node*)malloc(sizeof(struct node));
-        if(s==NULL)
+        top=NULL;
+    }
+    void push(int val)
+    {
+        node *tmp=new node(val);
+        if(top==NULL)
         {
-            cout<<"Memory not allocated";
+            top=tmp;
         }
         else
         {
-            cout<<"Enter value of node 1 : ";
-            cin>>num;
-            s->data=num;
-            s->ptr=NULL;
-            tmp=s;
-            
-            
-                for(int i=2;i<=n;i++)
-                {
-                    fnode=(struct node* )malloc(sizeof(struct node));
-            if(fnode==NULL)
-            {
-                cout<<"Memory not allocated .";
-            }
-            else
-            {
-                    cout<<"Enter value of node "<<i<<" : ";
-                    cin>>num;
-                    fnode->data=num;
-                    fnode->ptr=NULL;
-                    tmp->ptr=fnode;
-                    tmp=tmp->ptr;
-                }
-            }
+            tmp->next=top;
+            top=tmp;
+        }              
+    }
+
+    void pop()
+    {
+        if(top==NULL)
+        {
+            cout<<"Stack is empty ."<<endl;
         }
+        else if(top->next==NULL)
+        {
+            delete top;
+            top=NULL;
+        }
+        else
+        {
+            top=top->next;
+        }
+    }
+
+    int top1()
+    {
+        return top->data;
+    }
+
+    int size()
+    {
+        node *tmp=top;
+        int i=0;
+        while(tmp->next !=NULL)
+        {
+            i++;
+            tmp=tmp->next;
+        }
+        i++;
+        return i;
     }
 
     void display()
     {
-        tmp=s;
-        int i=1;
-        while(tmp != NULL)
+        node *tmp=top;
+        cout<<"Stack : ";
+        while(tmp->next != NULL)
         {
-            cout<<"The value at node "<<i<<" is : "<<tmp->data<<endl ;
-            tmp=tmp->ptr;
-            i++;
+            cout<<tmp->data<<" ";
+            tmp=tmp->next;
         }
-        
+        cout<<tmp->data<<" ";
+        cout<<endl;
     }
 
-    int push()
+    bool empty()
     {
-        cout<<"Enter the value of element you want to push : ";
-        cin>>num;
-        tmp=s;
-        struct node* tmp1;
-        tmp1=s;
-        tmp1=tmp1->ptr;
-        fnode=(struct node *)malloc(sizeof(struct node));
-        if(fnode==NULL)
+        if(top==NULL)
         {
-            cout<<"Memory not allocated";
+            return true;
         }
         else
         {
-            fnode->data=num;
-            fnode->ptr=NULL;
-            tmp->ptr=fnode;
-            fnode->ptr=tmp1;
+            return false;
         }
-        
-        display();
     }
 
-    int pop()
-    {
-        tmp=s;
-        struct node *tmp1;
-        tmp1=s;
-        tmp1=tmp1->ptr;
-        int item;
-        item =tmp1->data;
-        tmp1=tmp1->ptr;
-        tmp->ptr=tmp1;
-        cout<<"After pop the list is :"<<endl;
-        display();
-        return item;
-    }
-
-    int status()
-    {
-        tmp=s;
-        if(tmp==NULL)
-        {
-            cout<<"Stack is empty."<<endl;
-        }
-        else 
-        {
-            int nodecount=0;
-            while(tmp != NULL)
-            {
-                nodecount++;
-                tmp=tmp->ptr;
-            }
-            cout<<"The Stack has "<<nodecount<<" elements."<<endl;
-        }
-        return 0;
-    }
 };
 
 int main()
 {
-    int n;
-    LLStack l(5);
-    l.display();
-    l.push();
-    n=l.pop();
-    cout<<"The popped element is : "<<n<<endl;
-    l.status();
-    return 0;
+    Stack s;
+    int num, n;
+    label:
+    cout << "Enter 0 to push\nEnter 1 to pop\nEnter 2 to display top element\nEnter 3 to display size\nEnter 4 to display Stack\nEnter 5 to check whether stack is empty\nEnter 6 to exit\n\n";
+    cin >> num;
+    if (num == 0)
+    {
+        cout << "Enter the number you want to push : ";
+        cin >> n;
+        s.push(n);
+        cout << endl;
+        goto label;
+    }
+    else if (num == 1)
+    {
+        s.pop();
+        cout << endl;
+        goto label;
+    }
+    else if (num == 2)
+    {
+        cout << "The top element is : " << s.top1() << endl;
+        cout << endl;
+        goto label;
+    }
+    else if (num == 3)
+    {
+        cout << "Size of stack is : " << s.size() << endl;
+        cout << endl;
+        goto label;
+    }
+    else if (num == 4)
+    {
+        s.display();
+        cout << endl;
+        goto label;
+    }
+    else if (num == 5)
+    {
+        n = s.empty();
+        if (n == true)
+        {
+            cout << "Stack is empty . " << endl;
+        }
+        else
+        {
+            cout << "Stack is not empty . " << endl;
+        }
+        cout<<endl;
+        goto label;
+    }
+    else if (num == 6)
+    {
+        cout << "------------------------------Thank You . Program Ends Here. ------------------------------------------";
+        return 0;
+    }
+    else
+    {
+        cout << "Enter valid number. ";
+        cout << endl<< endl;
+        goto label;
+    }
 }
