@@ -1,68 +1,133 @@
+//Time complexity of this code:-
+// Time complexity of push and pop are O(1).
+//Time Complexity of top , size and empty are O(1).
+
+
 #include <iostream>
 using namespace std;
-class AStack
+class Stack
 {
-    private:
-    int num[100];
-    int top; 
-    public:
-    AStack()
+private:
+    int *arr;
+    int top;
+
+public:
+    Stack()
     {
-        top=-1;
+        top = -1;
     }
-    int push(int n)
+    void push(int val)
     {
         top++;
-        num[top]=n;
-        return 0;
+        arr[top] = val;
     }
 
-    int pop()
+    void pop()
     {
-        int item;
-        item=num[top];
-        top=top-1;
-        return item;
+        top--;
     }
 
-    int status()
+    int top1()
     {
-        if(top==-1)
+        return arr[top];
+    }
+
+    int size()
+    {
+        return top + 1;
+    }
+
+    bool empty()
+    {
+        if (top == -1)
         {
-            cout<<"The stack is empty.";
-        }
-        else if(top>=100)
-        {
-            cout<<"The stack is full.";
+            return true;
         }
         else
         {
-            cout<<"The stack is not empty and also not full";
+            return false;
         }
     }
+
     void display()
     {
-        for(int i=0;i<=top;i++)
+        if (top == -1)
         {
-            cout<<"Element "<<i<<" is : "<<num[i]<<endl;
+            cout << "Stack is empty . " << endl;
         }
-
+        else
+        {
+            cout << "Stack : ";
+            for (int i = 0; i <= top; i++)
+            {
+                cout << arr[i] << " ";
+            }
+        }
     }
 };
 
 int main()
 {
-    AStack a;
-    int n;
-    for(int i=0;i<5;i++)
+    Stack s;
+    int num, n;
+label:
+    cout << "Enter 0 to push\nEnter 1 to pop\nEnter 2 to display top element\nEnter 3 to display size\nEnter 4 to display Stack\nEnter 5 to check whether stack is empty\nEnter 6 to exit\n\n";
+    cin >> num;
+    if (num == 0)
     {
-        cout<<"Enter element "<<i<<" :";
-        cin>>n;
-        a.push(n);
+        cout << "Enter the number you want to push : ";
+        cin >> n;
+        s.push(n);
+        cout << endl;
+        goto label;
     }
-    a.display();
-    n=a.pop();
-    cout<<"The popped element is : "<<n<<endl;
-    a.display();
-    a.status();
+    else if (num == 1)
+    {
+        s.pop();
+        cout << endl;
+        goto label;
+    }
+    else if (num == 2)
+    {
+        cout << "The top element is : " << s.top1() << endl;
+        cout << endl;
+        goto label;
+    }
+    else if (num == 3)
+    {
+        cout << "Size of stack is : " << s.size() << endl;
+        cout << endl;
+        goto label;
+    }
+    else if (num == 4)
+    {
+        s.display();
+        cout << endl;
+        goto label;
+    }
+    else if (num == 5)
+    {
+        n = s.empty();
+        if (n == true)
+        {
+            cout << "Stack is empty . " << endl;
+        }
+        else
+        {
+            cout << "Stack is not empty . " << endl;
+        }
+        cout<<endl;
+        goto label;
+    }
+    else if (num == 6)
+    {
+        cout << "------------------------------Thank You . Program Ends Here. ------------------------------------------";
+        return 0;
+    }
+    else
+    {
+        cout << "Enter valid number";
+        cout << endl<< endl;
+        goto label;
+    }
 }
