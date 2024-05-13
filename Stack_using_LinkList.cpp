@@ -1,3 +1,7 @@
+//Time complexity of this code:-
+// Time complexity of push and pop are O(1).
+//Time Complexity of top , size and empty are O(1).
+
 #include<iostream>
 using namespace std;
 class node
