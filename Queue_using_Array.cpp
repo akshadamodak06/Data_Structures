@@ -1,73 +1,162 @@
+//Time Complexity of this code :-
+//The enqueue and dequeue are of time complexity O(1).
+//size and display of front and rear element are of time complexity O(1).
+
 #include <iostream>
 using namespace std;
-class AQueue
+class Queue
 {
-    private:
-    int arr[100];
-    int front,rear;
-    public:
-    AQueue()
+private:
+    int arr[10];
+    int front, rear;
+
+public:
+    Queue()
     {
-        front =0;
-        rear=-1;
+        front = -1;
+        rear = -1;
     }
-    int enqueue()
+    void enqueue(int val)
     {
-        if(rear==100)
+        if (rear == -1)
         {
-            cout<<"Queue is full ."<<endl;
+            front = 0;
+            rear = 0;
         }
         else
         {
-            cout<<"Enter the value of the element : ";
-            rear=rear+1;
-            cin>>arr[rear];
-          
+            rear++;
         }
+        arr[rear] = val;
+    }
 
-        return 0;
-    } 
-
-    int dequeue()
+    void dequeue()
     {
-        int item;
-        if(rear==-1)
+        if (front == rear)
         {
-            cout<<"Queue is empty."<<endl;
+            front = -1;
+            rear = -1;
         }
         else
         {
-            item=arr[front];
-            for(int i=0;i<100;i++)
-            {
-                arr[i]=arr[i+1];
-            }
-            rear--;
-            return item;            
+            front++;
         }
-
     }
+
+    int front1()
+    {
+        return arr[front];
+    }
+
+    int rear1()
+    {
+        return arr[rear];
+    }
+
+    int size()
+    {
+        return rear - front + 1;
+    }
+
     void display()
     {
-        for(int i=0;i<=rear;i++)
+        if (front == -1)
         {
-            cout<<"The element "<<i+1<<" is : "<<arr[i]<<endl;
+            cout << "Queue is empty . ";
+        }
+        else
+        {
+            cout << "Queue : ";
+            for (int i = front; i <= rear; i++)
+            {
+                cout << arr[i] << " ";
+            }
         }
     }
-    
+
+    bool empty()
+    {
+        if (front == -1 && rear == -1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 };
 
 int main()
 {
-    AQueue q;
-    for(int i=0;i<5;i++)
+    Queue q;
+    int num, n;
+label:
+    cout << "Enter 0 to enqueue\nEnter 1 to dequeue\nEnter 2 to display front element\nEnter 3 to display rear element\nEnter 4 to display size\nEnter 5 to display Stack\nEnter 6 to check whether stack is empty\nEnter 7 to exit\n\n";
+    cin >> num;
+    if (num == 0)
     {
-        q.enqueue();
+        cout << "Enter the number you want to enqueue : ";
+        cin >> n;
+        q.enqueue(n);
+        cout << endl;
+        cout << "hh";
+        goto label;
     }
-    q.display();
-    int result=q.dequeue();
-    cout<<"The element popped is "<<result<<endl;
-    q.display();
-    return 0;
-
+    else if (num == 1)
+    {
+        q.dequeue();
+        cout << endl;
+        goto label;
+    }
+    else if (num == 2)
+    {
+        cout << "The front element is : " << q.front1() << endl;
+        cout << endl;
+        goto label;
+    }
+    else if (num == 3)
+    {
+        cout << "The rear element is : " << q.rear1() << endl;
+        cout << endl;
+        goto label;
+    }
+    else if (num == 4)
+    {
+        cout << "Size of stack is : " << q.size() << endl;
+        cout << endl;
+        goto label;
+    }
+    else if (num == 5)
+    {
+        q.display();
+        cout << endl;
+        goto label;
+    }
+    else if (num == 6)
+    {
+        n = q.empty();
+        if (n == true)
+        {
+            cout << "Stack is empty . " << endl;
+        }
+        else
+        {
+            cout << "Stack is not empty . " << endl;
+        }
+        cout << endl;
+        goto label;
+    }
+    else if (num == 7)
+    {
+        cout << "------------------------------Thank You . Program Ends Here. ------------------------------------------";
+        return 0;
+    }
+    else
+    {
+        cout << "Enter valid number";
+        cout << endl
+             << endl;
+        goto label;
+    }
 }
