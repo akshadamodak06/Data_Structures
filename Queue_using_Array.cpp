@@ -92,7 +92,7 @@ int main()
     Queue q;
     int num, n;
 label:
-    cout << "Enter 0 to enqueue\nEnter 1 to dequeue\nEnter 2 to display front element\nEnter 3 to display rear element\nEnter 4 to display size\nEnter 5 to display Stack\nEnter 6 to check whether stack is empty\nEnter 7 to exit\n\n";
+    cout << "Enter 0 to enqueue\nEnter 1 to dequeue\nEnter 2 to display front element\nEnter 3 to display rear element\nEnter 4 to display size\nEnter 5 to display Queue\nEnter 6 to check whether queue is empty\nEnter 7 to exit\n\n";
     cin >> num;
     if (num == 0)
     {
@@ -123,7 +123,7 @@ label:
     }
     else if (num == 4)
     {
-        cout << "Size of stack is : " << q.size() << endl;
+        cout << "Size of queue is : " << q.size() << endl;
         cout << endl;
         goto label;
     }
@@ -138,11 +138,11 @@ label:
         n = q.empty();
         if (n == true)
         {
-            cout << "Stack is empty . " << endl;
+            cout << "Queue is empty . " << endl;
         }
         else
         {
-            cout << "Stack is not empty . " << endl;
+            cout << "Queue is not empty . " << endl;
         }
         cout << endl;
         goto label;
