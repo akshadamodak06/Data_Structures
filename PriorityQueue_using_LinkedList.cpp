@@ -1,3 +1,8 @@
+//Time Complexity of this code :-
+//enqueue function has O(N).
+//dequeue function has O(1).
+// dispaly of size , empty function, top element has O(1).
+
 #include <iostream>
 using namespace std;
 class node
