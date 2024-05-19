@@ -1,126 +1,181 @@
 #include <iostream>
 using namespace std;
-struct node 
+class node
 {
+public:
     int data;
-    struct node *ptr;
-}*s,*s1;
-class PQueueLL
-{
-    private:
-    int rear=-1;
-    struct node *fnode,*gnode,*tmp,*tmp1;
-    public:
-    void enqueue(int n)
+    node *next;
+    node(int val)
     {
-        if(rear == -1)
-        {
-            s=(struct node *)malloc(sizeof(struct node ));
-            if(s==NULL)
-            {
-                cout<<"Memory not alloted ."<<endl;
-            }
-            else
-            {
-                s->data=n;
-                s->ptr=NULL;
-                tmp=s;
-                tmp1=s;
-                rear++;
-            }
-        }
-        else
-        {
-            fnode=(struct node *)malloc(sizeof(struct node));
-            if(fnode==NULL)
-            {
-                cout<<"Memory not allocated"<<endl;
-            }
-            else if(tmp->data < n)
-            {
-                fnode->data=n;
-                fnode->ptr=tmp;
-                s=fnode;
-                rear++;
-            }
-            else
-            {
-                fnode->data = n;
-                tmp = s;
-                int i = 1;
-                while (tmp->ptr != NULL && tmp->ptr->data > n) // Find the correct position to insert
-                {
-                    tmp = tmp->ptr;
-                    i++;
-                }
-                fnode->ptr = tmp->ptr;
-                tmp->ptr = fnode;
-                rear++; // Update rear
+        data = val;
+        next = NULL;
+    }
+};
 
+class PriorityQueue
+{
+private:
+    node *head;
+
+public:
+    PriorityQueue()
+    {
+        head = NULL;
+    }
+    
+     void enqueue(int val) {
+        node* tmp = new node(val);
+        if (head == nullptr || head->data > val)
+         {
+            tmp->next = head;
+            head = tmp;
+        } 
+        else 
+        {
+            node* current = head;
+            while (current->next != nullptr && current->next->data <= val) 
+            {
+                current = current->next;
             }
+            tmp->next = current->next;
+            current->next = tmp;
         }
-        tmp=s;
-        tmp1=s;
     }
 
-    int dequeue()
+    void dequeue()
     {
-        if(s == NULL)
+        if (head == NULL)
         {
-            cout<<"Queue is empty ."<<endl;
+            cout << "List is empty ." << endl;
+        }
+        else if (head->next == NULL)
+        {
+            delete head;
+            head = NULL;
         }
         else
         {
-            int item;
-            item=s->data;
-            s=s->ptr;
-            rear--;
-            return item;
+            head = head->next;
+        }
+    }
+
+    int top()
+    {
+        return head->data;
+    }
+
+   int size() {
+    if (head == nullptr) 
+    {
+        return 0;
+    } 
+    else
+    {
+        node* tmp = head;
+        int count = 0;
+        while (tmp != nullptr) {
+            count++;
+            tmp = tmp->next;
+        }
+        return count;
+    }
+}
+
+
+    bool empty()
+    {
+        if (head == NULL)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
     void display()
     {
-        tmp=s;
-        int i=1;
-        while(tmp->ptr != NULL)
+        if (head == NULL)
         {
-            cout<<"Element "<<i<<" is : "<<tmp->data<<endl;
-            tmp=tmp->ptr;
-            i++;
+            cout << "Queue is empty. " << endl;
         }
-        cout<<"Element "<<i<<" is : "<<tmp->data<<endl;
-    }
-
-    void priority()
-    {
-        tmp=s;
-        cout<<"The priority element is : "<<tmp->data<<endl;
-    }
-
-    void size()
-    {
-        cout<<"Number of elements in queue are : "<<rear+1<<endl;
+        else
+        {
+            node *tmp = head;
+            while (tmp->next != NULL)
+            {
+                cout << tmp->data << " ";
+                tmp=tmp->next;
+            }
+            cout << tmp->data << " " << endl;
+        }
     }
 };
 
-
 int main()
 {
-    PQueueLL pq;
-    for(int i=0;i<5;i++)
+    PriorityQueue q;
+    int num, n;
+label:
+    cout << "Enter 0 to enqueue\nEnter 1 to dequeue\nEnter 2 to display top element\nEnter 3 to display size\nEnter 4 to display Queue\nEnter 5 to check whether queue is empty\nEnter 6 to exit\n\n";
+    cin >> num;
+    if (num == 0)
     {
-        int n;
-        cout<<"Enter the value of element "<<i+1<<" : ";
-        cin>>n;
-        pq.enqueue(n);
+        cout << "Enter the number you want to enqueue : ";
+        cin >> n;
+        q.enqueue(n);
+        cout << endl;
+        goto label;
     }
-    pq.display();
-    pq.size();
-    int item =pq.dequeue();
-    cout<<"Element dequeued is : "<<item<<endl;
-    pq.size();
-    pq.priority();
-    pq.size();
-
+    else if (num == 1)
+    {
+        q.dequeue();
+        cout << endl;
+        goto label;
+    }
+    else if (num == 2)
+    {
+        cout << "The front element is : " << q.top() << endl;
+        cout << endl;
+        goto label;
+    }
+    else if (num == 3)
+    {
+        cout << "Size of Queue is : " << q.size() << endl;
+        cout << endl;
+        goto label;
+    }
+    else if (num == 4)
+    {
+        q.display();
+        cout << endl;
+        goto label;
+    }
+    else if (num == 5)
+    {
+        n = q.empty();
+        if (n == true)
+        {
+            cout << "Queue is empty . " << endl;
+        }
+        else
+        {
+            cout << "Queue is not empty . " << endl;
+        }
+        cout << endl;
+        goto label;
+    }
+    else if (num == 6)
+    {
+        cout << "------------------------------Thank You . Program Ends Here. ------------------------------------------";
+        return 0;
+    }
+    else
+    {
+        cout << "Enter valid number";
+        cout << endl
+             << endl;
+        goto label;
+    }
 }
